@@ -7,5 +7,7 @@ import com.litografiaartesplanchas.employeesservice.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
+    boolean existsByEmail(String email);
+    boolean existsByNumberDocument(String numberDocument);
 
 }

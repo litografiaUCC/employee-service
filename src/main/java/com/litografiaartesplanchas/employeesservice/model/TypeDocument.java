@@ -15,7 +15,7 @@ public class TypeDocument {
     @Column(name = "id_tipo_documento")
     private int id;
 
-    @Column(name = "nombre", nullable = true , length = 45, unique = true)
+    @Column(name = "nombre", nullable = false , length = 45, unique = true)
     private String name;
 
     @Column(name = "acronimo", nullable = true , length = 10)

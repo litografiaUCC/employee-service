@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,16 +65,30 @@ public class EmployeeController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateEmployee(@RequestBody Employee employee) {
-    try {
-        employeeService.updateEmployeeById(employee);
-        return ResponseEntity.ok("{\"status\": 200, \"message\": \"ok\"}");
-    } catch (Exception e) {
-        if (e.getMessage().contains("Employee not found")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 404, \"message\": \"Employee not found\"}");
+        try {
+            employeeService.updateEmployeeById(employee);
+            return ResponseEntity.ok("{\"status\": 200, \"message\": \"ok\"}");
+        } catch (Exception e) {
+            if (e.getMessage().contains("Employee not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"status\": 404, \"message\": \"Employee not found\"}");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
+}   
+    @PatchMapping(value = "/{id}/deactivate")
+    public ResponseEntity<?> patchStatus(@PathVariable Integer id) {
+        try {
+            employeeService.patchStatusById(id);
+            return ResponseEntity.ok("{\"status\": 200, \"message\": \"ok\"}");
+        } catch (Exception e) {
+            if (e.getMessage().contains("Employee not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"status\": 404, \"message\": \"Employee not found\"}");
+            } else if (e.getMessage().contains("Employee already deactivated")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"status\": 409, \"message\": \"Employee already deactivated\"}");
+            } 
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
+        }
     }
-}
 
 }
 

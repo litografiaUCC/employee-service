@@ -34,7 +34,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
     }
 }
-@GetMapping("/")
+    @GetMapping("/")
     public ResponseEntity<?> getAllEmployees() {
         try {
             List<Employee> employees = employeeService.getAll();
@@ -49,13 +49,17 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable Integer id) {
+    try {
         Optional<Employee> employeeOptional = employeeService.getClientById(id);
         if (employeeOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"status\": 404, \"message\": \"Not Found\"}");
         }
         Employee employee = employeeOptional.get();
         return ResponseEntity.ok(employee);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
     }
+}
 }
 
 

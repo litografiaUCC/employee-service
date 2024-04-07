@@ -18,12 +18,20 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAll(){
-        return employeeRepository.findAll();
+    public List<Employee> getAll() throws Exception {
+        try {
+            return employeeRepository.findAll();
+        } catch (Exception e) {
+            throw new Exception("Error occurred while fetching all employees: " + e.getMessage());
+        }
     }
-
-    public Optional<Employee> getClientById(Integer id) {
-		return employeeRepository.findById(id);
+    
+    public Optional<Employee> getClientById(Integer id) throws Exception {
+        try {
+            return employeeRepository.findById(id);
+        } catch (Exception e) {
+            throw new Exception("Error occurred while fetching employee with id " + id + ": " + e.getMessage());
+        }
     }
     
     public void registerEmployee(Employee employee) throws Exception {

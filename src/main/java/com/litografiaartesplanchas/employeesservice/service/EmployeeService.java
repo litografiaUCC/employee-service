@@ -51,15 +51,16 @@ public class EmployeeService {
         }
 
         try {
+            employee.setIsActive(true);
             employeeRepository.save(employee);
         } catch (Exception e) {
             throw new Exception("Error occurred while registering employee: " + e.getMessage());
         }
     }
 
-    public void updateEmployeeById(Integer id, Employee updatedEmployee) throws Exception {
+    public void updateEmployeeById(Employee updatedEmployee) throws Exception {
         try {
-            Optional<Employee> optional = employeeRepository.findById(id);
+            Optional<Employee> optional = employeeRepository.findById(updatedEmployee.getId());
             if (optional.isEmpty()) {
                 throw new Exception("Employee not found");
             }
@@ -89,6 +90,6 @@ public class EmployeeService {
         } catch (Exception e) {
             throw new Exception("Error occurred while updating employee: " + e.getMessage());
         }
-    }
+    }    
 }
 

@@ -129,7 +129,7 @@ public class Employee {
 		this.role = role;
 	}
 
-	public boolean isIsActive() {
+	public boolean getIsActive() {
 		return IsActive;
 	}
 

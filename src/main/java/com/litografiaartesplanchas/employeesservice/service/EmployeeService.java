@@ -90,6 +90,19 @@ public class EmployeeService {
         } catch (Exception e) {
             throw new Exception("Error occurred while updating employee: " + e.getMessage());
         }
-    }    
+    }
+    
+    public void patchStatusById(Integer id) throws Exception{
+        try{
+            Optional<Employee> optional = employeeRepository.findById(id);
+            if (optional.isEmpty()) throw new Exception("Employee not found");
+            Employee employee = optional.get();
+            if (!employee.getIsActive()) throw new Exception("Employee already deactivated");
+            employee.setIsActive(false);
+            employeeRepository.save(employee);
+        } catch(Exception e){
+            throw new Exception("Error ocurred while patching status: " + e.getMessage());
+        }
+    }
 }
 

@@ -68,6 +68,9 @@ public class EmployeeController {
         employeeService.updateEmployeeById(employee);
         return ResponseEntity.ok("{\"status\": 200, \"message\": \"ok\"}");
     } catch (Exception e) {
+        if (e.getMessage().contains("Employee not found")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 404, \"message\": \"Employee not found\"}");
+        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"" + e.getMessage() + "\"}");
     }
 }

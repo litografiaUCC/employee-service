@@ -38,7 +38,10 @@ public class Employee {
 	@Column(name = "numero_documento", nullable = false, unique = true)
 	private String numberDocument;
 
-    @ManyToOne
+	@Column(name = "activo", columnDefinition = "BOOLEAN DEFAULT true")
+	private boolean IsActive;
+
+	@ManyToOne
 	@JoinColumn(name = "id_tipo_documento")
 	private TypeDocument typeDocument;
 
@@ -126,6 +129,13 @@ public class Employee {
 		this.role = role;
 	}
 
+	public boolean isIsActive() {
+		return IsActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		IsActive = isActive;
+	}
 
 
 }
